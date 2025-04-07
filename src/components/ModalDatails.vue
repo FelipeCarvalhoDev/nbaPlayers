@@ -4,68 +4,117 @@ import type { Player } from '@/types'
 
 const props = defineProps<{
   player: Player | null
-  show: boolean
+  visible: boolean
 }>()
 
-const emit = defineEmits(['close', 'save'])
+const emit = defineEmits(['update-player', 'update:visible'])
 
-const editedPlayer = ref<Player | null>(null)
+const editedPlayer = ref<Player>({ ...props.player! })
 
 watch(() => props.player, (newVal) => {
-  editedPlayer.value = newVal ? { ...newVal } : null
+  if (newVal) editedPlayer.value = JSON.parse(JSON.stringify(newVal))
 }, { immediate: true })
 
-const handleSave = () => {
-  if (editedPlayer.value) {
-    emit('save', editedPlayer.value)
-  }
+const saveChanges = () => {
+  emit('update-player', { ...editedPlayer.value })
 }
 </script>
 
 <template>
-  <div v-if="show" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-lg p-6 w-full max-w-md">
+  <div class="fixed inset-0 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg p-6 w-full max-w-xl">
       <h2 class="text-xl font-bold mb-4">Editar Jogador</h2>
       
-      <div class="space-y-4">
-        <div>
-          <label class="block text-sm font-medium text-gray-700">Nome</label>
-          <input
-            v-model="editedPlayer.first_name"
-            type="text"
-            class="mt-1 p-2 border rounded w-full"
-          />
+      <div v-if="editedPlayer" class="space-y-4">
+        <div class="flex justify-center items-center gap-4">
+          <div class="w-full">
+            <label class="block text-sm font-medium text-gray-700">Nome</label>
+            <input
+              v-model="editedPlayer.first_name"
+              type="text"
+              class="mt-1 p-2 border rounded w-full"
+            />
+          </div>
+          <div class="w-full">
+            <label class="block text-sm font-medium text-gray-700">Sobrenome</label>
+            <input
+              v-model="editedPlayer.last_name"
+              type="text"
+              class="mt-1 p-2 border rounded w-full"
+            />
+          </div>
+        </div>
+
+        <div class="flex justify-center items-center gap-4">
+          <div class="w-full flex justify-center items-center gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Altura</label>
+              <input
+                v-model="editedPlayer.height"
+                type="text"
+                class="mt-1 p-2 border rounded w-full"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Peso</label>
+              <input
+                v-model="editedPlayer.weight"
+                type="text"
+                class="mt-1 p-2 border rounded w-full"
+              />
+            </div>
+          </div>
+          <div class="w-full flex justify-center items-center gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Posição</label>
+              <input
+                v-model="editedPlayer.position"
+                type="text"
+                class="mt-1 p-2 border rounded w-full"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">País</label>
+              <input
+                v-model="editedPlayer.country"
+                type="text"
+                class="mt-1 p-2 border rounded w-full"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-center items-center gap-4">
+          <div class="w-full">
+            <label class="block text-sm font-medium text-gray-700">Time</label>
+            <input
+              v-model="editedPlayer.team.full_name"
+              type="text"
+              class="mt-1 p-2 border rounded w-full"
+            />
+          </div>
+          <div class="w-full">
+            <label class="block text-sm font-medium text-gray-700">Divisão</label>
+            <input
+              v-model="editedPlayer.team.division"
+              type="text"
+              class="mt-1 p-2 border rounded w-full"
+            />
+          </div>
         </div>
         
-        <div>
-          <label class="block text-sm font-medium text-gray-700">Sobrenome</label>
-          <input
-            v-model="editedPlayer.last_name"
-            type="text"
-            class="mt-1 p-2 border rounded w-full"
-          />
-        </div>
-        
-        <div>
-          <label class="block text-sm font-medium text-gray-700">Posição</label>
-          <input
-            v-model="editedPlayer.position"
-            type="text"
-            class="mt-1 p-2 border rounded w-full"
-          />
-        </div>
       </div>
       
       <div class="mt-6 flex justify-end space-x-2">
         <button
-          @click="$emit('close')"
+          @click="emit('update:visible', false)"
           class="px-4 py-2 bg-gray-300 rounded"
         >
           Cancelar
         </button>
         <button
-          @click="handleSave"
-          class="px-4 py-2 bg-blue-500 text-white rounded"
+          @click="saveChanges"
+          class="px-4 py-2 bg-[#314284] text-white rounded"
         >
           Salvar
         </button>

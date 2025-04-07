@@ -1,13 +1,14 @@
 import api from './../api'
-import type { PlayersResponse, Player, DetailsPlayers } from './../types'
+import type { PlayersResponse, Player } from './../types'
 
-export const getPlayers = async (page = 1, perPage = 20): Promise<PlayersResponse> => {
+export const getPlayers = async (page = 1, perPage = 100): Promise<PlayersResponse> => {
   return new Promise((resolve, reject) => {
     api
       .get('/players', {
         params: {
           page,
           per_page: perPage,
+          next_cursor: 100
         }
       })
       .then((resp) => {
@@ -18,10 +19,6 @@ export const getPlayers = async (page = 1, perPage = 20): Promise<PlayersRespons
       })
       .finally();
   });
-}
-
-export const getDetails = async (id: number): Promise<DetailsPlayers> => {
-  return api.get(`/players/${id}`)
 }
 
 // Simulação de edição (a API real não permite)
