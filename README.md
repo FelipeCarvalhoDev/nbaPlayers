@@ -1,5 +1,43 @@
-# Vue 3 + TypeScript + Vite
+# NBA Players
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Este projeto é uma aplicação web desenvolvida com **VueJS 3**, focada em **listar e simular exclusão e edição** de jogadores da NBA. 
+A aplicação consome a API [**Balldontlie**](https://docs.balldontlie.io/#nba-api) e usa [**Vue3 Datatable**](https://vue3-datatable-document.vercel.app/) para exibir.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+## Tecnologias Utilizadas
+
+- **VueJS 3**: Biblioteca JavaScript para criação de interfaces de usuário.
+- **TailwindCSS**: Framework de CSS utilitário para estilização responsiva e customizável.
+- **Vitest**: Framework de teste unitário JavaScript/TypeScript.
+
+## Funcionalidades
+
+- **Rquisição à API**
+- **Listar jogadores recebidos**
+- **Simular edição de jogador**
+- **Simular exclusão de jogador**
+
+## Pré-requisitos
+
+- Certifique-se de estar utilizando a versão [**Node.js v20.16.0**](https://nodejs.org/download/release/v20.16.0/). Você pode verificar sua versão atual com o comando:
+
+  ```bash
+  node -v
+
+## Como rodar o projeto
+
+1. **Instale as dependências**:
+
+   ```bash
+   npm install
+
+2. **Inicie o servidor de desenvolvimento**:
+
+   ```bash
+   npm run dev
+
+3. **Acesse a aplicação no seu navegador em**: http://localhost:5173
+
+4. **Para rodar os testes unitários**:
+
+   ```bash
+   npm run test

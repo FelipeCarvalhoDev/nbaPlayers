@@ -8,14 +8,18 @@ import type { Player } from '@/types'
 const players = ref<Player[]>([])
 const showModal = ref(false)
 const selectedPlayer = ref<Player | null>(null)
+const loading = ref(true)
 
 const fetchPlayers = async () => {
-  try {
-    const response = await getPlayers()
-    players.value = response.data
-  } catch (error) {
-    console.error('Erro ao buscar jogadores:', error)
-  }
+  loading.value = true
+  await getPlayers()
+    .then((response) => {
+      players.value = response.data 
+    })
+    .finally(() =>
+      loading.value = false
+    )
+
 }
 
 fetchPlayers()
@@ -42,6 +46,7 @@ const handleUpdatePlayers = (updatedList: Player[]) => {
 <template>
   <div class="container mx-auto">
     <PlayersTable
+      :loading="loading"
       :players="players"
       @edit-player="handleEditPlayer"
       @update-players="handleUpdatePlayers"

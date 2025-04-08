@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { showModal } from '@/utils/modalManager';
+
 
 const api = axios.create({
   baseURL: 'https://api.balldontlie.io/v1',
@@ -11,7 +13,6 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    // Você pode adicionar autenticação aqui se necessário
     return config
   },
   (error) => {
@@ -24,6 +25,15 @@ api.interceptors.response.use(
     return response.data
   },
   (error) => {
+    if(error.status === 401) {
+      showModal('Falha na autenticação', 'Sem permissão de acesso. Verifique seu token de autorização.')
+    }
+    if(error.status === 404) {
+      showModal('Rota não encontrada', 'Verifique a rota que está tentando usar.')
+    }
+    if(error.status === 500) {
+      showModal('Erro interno', 'Por favor tente novamente mais tarde.')
+    }
     return Promise.reject(error)
   }
 )

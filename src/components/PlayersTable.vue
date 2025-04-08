@@ -1,6 +1,5 @@
 <template>
   <div class="p-4 bg-white rounded-lg shadow">
-    <div class="table">Hello Table</div>
     <div class="mb-4">
       <input
         v-model="globalSearch"
@@ -24,13 +23,13 @@
         <div class="flex space-x-2">
           <button 
             @click="handleEdit(data.value)"
-            class="px-3 py-1 bg-[#314284] text-white rounded hover:bg-blue-600 transition"
+            class="px-3 py-1 bg-[#314284] text-white rounded hover:bg-blue-600 transition cursor-pointer"
           >
             Editar
           </button>
           <button
             @click="confirmDelete(data.value)"
-            class="px-3 py-1 bg-[#ad2b34] text-white rounded hover:bg-red-600 transition"
+            class="px-3 py-1 bg-[#ad2b34] text-white rounded hover:bg-red-600 transition btn-delete cursor-pointer"
           >
             Deletar
           </button>
@@ -47,9 +46,9 @@
   />
 </template>
 <script setup lang="ts">
-import Modal from '@/components/Modal.vue'
+import Modal from '@/components/ModalDelete.vue'
 
-import { ref, onMounted, computed } from 'vue'
+import { ref, computed } from 'vue'
 import Vue3Datatable from '@bhplugin/vue3-datatable'
 import '@bhplugin/vue3-datatable/dist/style.css'
 import { getPlayers, deletePlayer } from '@/services/players'
@@ -57,6 +56,7 @@ import type { Player } from '@/types'
 
 const props = defineProps<{
   players: Player[]
+  loading: boolean
 }>()
 
 const emit = defineEmits<{
@@ -65,7 +65,6 @@ const emit = defineEmits<{
   (e: 'delete', playerId: number): void
 }>()
 
-const loading = ref(true)
 const globalSearch = ref('')
 
 const cols = ref([
@@ -93,22 +92,9 @@ const cols = ref([
   }
 ])
 
-const fetchPlayers = async () => {
-  try {
-    loading.value = true
-    const response = await getPlayers()
-    emit('update-players', response.data)
-  } catch (error) {
-    console.error('Erro ao buscar jogadores:', error)
-  } finally {
-    loading.value = false
-  }
-}
-
 const handleEdit = (player: Player) => {
   emit('edit-player', player)
 }
-
 
 const deleteMessage = computed(() => {
   if (!playerToDelete.value) return 'Tem certeza que deseja excluir este jogador?'
@@ -142,6 +128,4 @@ const confirmDeleteAction = async () => {
     cancelDelete()
   }
 }
-
-onMounted(fetchPlayers)
 </script>

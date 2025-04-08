@@ -26,7 +26,7 @@ const saveChanges = () => {
       <h2 class="text-xl font-bold mb-4">Editar Jogador</h2>
       
       <div v-if="editedPlayer" class="space-y-4">
-        <div class="flex justify-center items-center gap-4">
+        <div class="flex flex-col md:flex-row justify-center items-center gap-4">
           <div class="w-full">
             <label class="block text-sm font-medium text-gray-700">Nome</label>
             <input
@@ -45,7 +45,7 @@ const saveChanges = () => {
           </div>
         </div>
 
-        <div class="flex justify-center items-center gap-4">
+        <div class="flex flex-col md:flex-row justify-center items-center gap-4">
           <div class="w-full flex justify-center items-center gap-4">
             <div>
               <label class="block text-sm font-medium text-gray-700">Altura</label>
@@ -84,7 +84,7 @@ const saveChanges = () => {
           </div>
         </div>
 
-        <div class="flex justify-center items-center gap-4">
+        <div class="flex flex-col md:flex-row justify-center items-center gap-4">
           <div class="w-full">
             <label class="block text-sm font-medium text-gray-700">Time</label>
             <input
@@ -108,13 +108,13 @@ const saveChanges = () => {
       <div class="mt-6 flex justify-end space-x-2">
         <button
           @click="emit('update:visible', false)"
-          class="px-4 py-2 bg-gray-300 rounded"
+          class="px-4 py-2 bg-gray-300 rounded cursor-pointer"
         >
           Cancelar
         </button>
         <button
           @click="saveChanges"
-          class="px-4 py-2 bg-[#314284] text-white rounded"
+          class="px-4 py-2 bg-[#314284] text-white rounded cursor-pointer"
         >
           Salvar
         </button>
